@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+#
+# A top-like utility for Finagle servers.
+
+require 'fintop/util'
+
+p Fintop::Util.finagle_pid_admin_port_pairs
