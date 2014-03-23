@@ -4,21 +4,22 @@ A top-like utility for monitoring [Finagle](http://github.com/twitter/finagle) s
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'fintop'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install fintop
+The `fintop` gem hasn't been published yet, so is currently only usable from
+source. To install `fintop` locally, clone this repository and run
+`rake install` from within the repository's root directory.
 
 ## Usage
 
-TODO: Write usage instructions here
+`fintop` is intended to be used in a similar fashion as the `top` suite of
+monitoring programs. For example, given two Finagle servers running locally,
+running `fintop` could look like this:
+
+    $ fintop
+    Processes: 2, Threads: 34 total, 22 runnable, 12 waiting
+
+    PID     ADMIN   #THREADS  #RUNNABLE   #WAITING   #TIMEDWAITING
+    39549   9990    17        11          4          2
+    40595   1110    17        11          4          2
 
 ## Contributing
 
