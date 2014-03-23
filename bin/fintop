@@ -1,7 +1,38 @@
 #!/usr/bin/env ruby
-#
-# A top-like utility for Finagle servers.
 
+require 'fintop/threads'
 require 'fintop/util'
 
-p Fintop::Util.finagle_pid_admin_port_pairs
+pid_port_pairs = Fintop::Util.finagle_pid_admin_port_pairs
+
+if pid_port_pairs.empty?
+  puts "Can't find any local Finagle servers running with admin endpoints. Exiting."
+  exit 0
+end
+
+threads_data = Hash[ pid_port_pairs.map { |pid, port|
+  # Create a ThreadsData object for the Finagle server with admin port `port`.
+  [pid, Fintop::ThreadsData.new(port)]
+}]
+
+total_threads = threads_data.values.map { |t| t.num_threads }.inject(:+)
+runnable_threads = threads_data.values.map { |t| t.num_runnable }.inject(:+)
+waiting_threads = threads_data.values.map { |t| t.num_waiting + t.num_timed_waiting }.inject(:+)
+
+puts "Processes: #{pid_port_pairs.size}, Threads: #{total_threads} total, #{runnable_threads} runnable, #{waiting_threads} waiting"
+puts
+printf "%-7s %-7s %-9s %-11s %-10s %-15s\n", "PID", "ADMIN", "#THREADS", "#RUNNABLE", "#WAITING", "#TIMEDWAITING"
+
+pid_port_pairs.each { |pid, port|
+  # Create a ThreadsData object for the Finagle server with admin port `port`.
+  threads_data = Fintop::ThreadsData.new(port)
+  printf(
+    "%-7s %-7s %-9s %-11s %-10s %-15s\n",
+    pid,
+    port,
+    threads_data.num_threads,
+    threads_data.num_runnable,
+    threads_data.num_waiting,
+    threads_data.num_timed_waiting
+  )
+}
