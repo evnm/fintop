@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 
+require 'fintop/probe'
 require 'fintop/threads'
-require 'fintop/util'
 
-pid_port_pairs = Fintop::Util.finagle_pid_admin_port_pairs
+pid_port_pairs = Fintop::Probe.finagle_pid_admin_port_pairs
 
 if pid_port_pairs.empty?
   puts "Can't find any local Finagle servers running with admin endpoints. Exiting."

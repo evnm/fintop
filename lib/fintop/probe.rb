@@ -1,5 +1,5 @@
 module Fintop
-  module Util
+  module Probe
     extend self
 
     # Pick out the pids of Finagle servers by probing for "/admin" endpoints
