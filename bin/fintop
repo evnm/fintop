@@ -5,11 +5,6 @@ require 'fintop/threads'
 
 pid_port_pairs = Fintop::Probe.finagle_pid_admin_port_pairs
 
-if pid_port_pairs.empty?
-  puts "Can't find any local Finagle servers running with admin endpoints. Exiting."
-  exit 0
-end
-
 threads_data = Hash[ pid_port_pairs.map { |pid, port|
   # Create a ThreadsData object for the Finagle server with admin port `port`.
   [pid, Fintop::ThreadsData.new(port)]
@@ -19,7 +14,12 @@ total_threads = threads_data.values.map { |t| t.num_threads }.inject(:+)
 runnable_threads = threads_data.values.map { |t| t.num_runnable }.inject(:+)
 waiting_threads = threads_data.values.map { |t| t.num_waiting + t.num_timed_waiting }.inject(:+)
 
-puts "Processes: #{pid_port_pairs.size}, Threads: #{total_threads} total, #{runnable_threads} runnable, #{waiting_threads} waiting"
+if pid_port_pairs.empty?
+  puts "Finagle processes: 0"
+  exit
+end
+
+puts "Finagle processes: #{pid_port_pairs.size}, Threads: #{total_threads} total, #{runnable_threads} runnable, #{waiting_threads} waiting"
 puts
 printf "%-7s %-7s %-9s %-11s %-10s %-15s\n", "PID", "ADMIN", "#THREADS", "#RUNNABLE", "#WAITING", "#TIMEDWAITING"
 
