@@ -15,11 +15,10 @@ monitoring programs. For example, given two Finagle servers running locally,
 running `fintop` could look like this:
 
     $ fintop
-    Processes: 2, Threads: 34 total, 22 runnable, 12 waiting
+    Finagle processes: 1, Threads: 17 total, 11 runnable, 6 waiting
 
-    PID     ADMIN   #THREADS  #RUNNABLE   #WAITING   #TIMEDWAITING
-    39549   9990    17        11          4          2
-    40595   1110    17        11          4          2
+    PID     PORT   CPU   #TH   #RUN   #WAIT   #TWAIT
+    60004   9990   4.0   17    11     4       2
 
 ## Contributing
 

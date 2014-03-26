@@ -2,6 +2,8 @@ require 'json'
 require "net/http"
 
 module Fintop
+  # Container class for data gathered from a Finagle server's
+  # thread-dump endpoint.
   class ThreadsData
     attr_reader :num_threads
     attr_reader :num_runnable
