@@ -11,7 +11,10 @@ module Fintop
     # Initialize a ThreadsData object for a Finagle server's on a given
     # port's "/admin/threads" endpoint.
     def initialize(port)
-      json_str = Net::HTTP.get(URI.parse('http://localhost:9990/admin/threads'))
+      json_str = Net::HTTP.get(
+        URI.parse("http://localhost:#{port}/admin/threads")
+      )
+
       @threads = JSON.parse(json_str)['threads'].to_a
       @num_threads = @threads.size
 

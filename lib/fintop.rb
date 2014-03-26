@@ -1,3 +1,4 @@
+require "fintop/printer"
 require "fintop/probe"
 require "fintop/threads"
 require "fintop/version"
