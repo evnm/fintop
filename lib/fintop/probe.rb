@@ -14,7 +14,10 @@ module Fintop
     # (pid, admin_port) pairs (i.e. 2-element arrays).
     def apply
       # Invoke jps and filter out nailgun servers and the jps process itself.
-      jps_cmd_str = "$JAVA_HOME/bin/jps | grep -v NGServer | grep -v Jps | awk '{print $1}'"
+      jps_cmd_str = "$JAVA_HOME/bin/jps | "\
+                    "grep -v NGServer | "\
+                    "grep -v Jps | "\
+                    "awk '{print $1}'"
 
       finagle_pids = `#{jps_cmd_str}`.split.map { |pid|
         # Filter for the processes that are listening on a TCP port.

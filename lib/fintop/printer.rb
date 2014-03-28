@@ -38,6 +38,7 @@ module Fintop
           port,
           metrics['jvm/num_cpus'],
           threads_data.num_threads,
+          threads_data.num_non_daemon,
           threads_data.num_runnable,
           threads_data.num_waiting,
           threads_data.num_timed_waiting
@@ -47,7 +48,7 @@ module Fintop
 
     private
 
-    @@row_format_str = "%-7s %-6s %-5s %-5s %-6s %-7s %-8s\n"
+    @@row_format_str = "%-7s %-6s %-5s %-5s %-6s %-6s %-7s %-8s\n"
 
     # Print a total process/thread synopsis and column headers.
     def print_header(threads_data_hash)
@@ -74,6 +75,7 @@ module Fintop
         "PORT",
         "CPU",
         "#TH",
+        "#NOND",
         "#RUN",
         "#WAIT",
         "#TWAIT"

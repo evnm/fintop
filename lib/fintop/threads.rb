@@ -9,6 +9,7 @@ module Fintop
     attr_reader :num_runnable
     attr_reader :num_waiting
     attr_reader :num_timed_waiting
+    attr_reader :num_non_daemon
 
     # Initialize a ThreadsData object for a Finagle server's on a given
     # port's "/admin/threads" endpoint.
@@ -30,6 +31,10 @@ module Fintop
 
       @num_timed_waiting = @threads.count { |tid, thread|
         thread['state'] == 'TIMED_WAITING'
+      }
+
+      @num_non_daemon = @threads.count { |tid, thread|
+        thread['daemon'] == false
       }
     end
   end
