@@ -1,4 +1,5 @@
 require 'fintop/metrics'
+require 'pp'
 
 module Fintop
   # Contains functions that gather and print operational data on local
@@ -32,23 +33,36 @@ module Fintop
         threads_data = threads_data_hash[pid]
         metrics = metrics_hash[pid]
 
+        tx_bytes, rx_bytes = [0, 0]
+        metrics.values.each { |scoped_metrics|
+          scoped_metrics.each { |k, v|
+            if not (k =~ /\/sent_bytes$/).nil?
+              tx_bytes = v
+            elsif not (k =~ /\/received_bytes$/).nil?
+              rx_bytes = v
+            end
+          }
+        }
+
         printf(
           @@row_format_str,
           pid,
           port,
-          metrics['jvm/num_cpus'],
+          metrics['jvm']['num_cpus'],
           threads_data.num_threads,
           threads_data.num_non_daemon,
           threads_data.num_runnable,
           threads_data.num_waiting,
-          threads_data.num_timed_waiting
+          threads_data.num_timed_waiting,
+          tx_bytes,
+          rx_bytes
         )
       }
     end
 
     private
 
-    @@row_format_str = "%-7s %-6s %-5s %-5s %-6s %-6s %-7s %-8s\n"
+    @@row_format_str = "%-7s %-6s %-5s %-5s %-6s %-6s %-7s %-8s %-10s %-10s\n"
 
     # Print a total process/thread synopsis and column headers.
     def print_header(threads_data_hash)
@@ -78,7 +92,9 @@ module Fintop
         "#NOND",
         "#RUN",
         "#WAIT",
-        "#TWAIT"
+        "#TWAIT",
+        "TXKB",
+        "RXKB"
       )
     end
   end
