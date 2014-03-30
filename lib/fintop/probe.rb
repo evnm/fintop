@@ -28,7 +28,7 @@ module Fintop
         # Probe the "/admin" endpoint.
         begin
           # Manual timeout to bail out of hung requests to un-listened-on ports.
-          Timeout::timeout(0.1) do
+          Timeout::timeout(0.2) do
             Net::HTTP.start('localhost', port) { |http|
               http.head('/admin').code.to_i == 200
             }
