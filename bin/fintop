@@ -4,6 +4,6 @@ require 'fintop/printer'
 require 'fintop/probe'
 require 'fintop/threads'
 
-pid_port_pairs = Fintop::Probe.apply
-Fintop::Printer.apply(pid_port_pairs)
+finagle_procs = Fintop::Probe.apply
+Fintop::Printer.apply(finagle_procs)
 

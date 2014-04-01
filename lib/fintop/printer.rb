@@ -7,48 +7,51 @@ module Fintop
   module Printer
     extend self
 
-    # Given an array of (pid, admin_port) pairs, gather data and print output.
-    def apply(pid_port_pairs)
-      if pid_port_pairs.empty?
+    # Given an array of Fintop::Probe::FinagleProcess objects, gather data
+    # and print output.
+    #
+    # @param finagle_procs [Array<FinagleProcess>]
+    def apply(finagle_procs)
+      if finagle_procs.empty?
         puts "Finagle processes: 0"
         exit
       end
 
       # Create a hash of pid=>ThreadsData objects.
       threads_data_hash = Hash[
-        pid_port_pairs.map { |pid, port|
-          [pid, Fintop::ThreadsData.new(port)]
+        finagle_procs.map { |finp|
+          [finp.pid, Fintop::ThreadsData.new(finp.admin_port)]
         }
       ]
 
       metrics_hash = Hash[
-        pid_port_pairs.map { |pid, port|
-          [pid, Fintop::Metrics.apply(port)]
+        finagle_procs.map { |finp|
+          [finp.pid, Fintop::Metrics.apply(finp)]
         }
       ]
 
       print_header(threads_data_hash)
 
-      pid_port_pairs.each { |pid, port|
-        threads_data = threads_data_hash[pid]
-        metrics = metrics_hash[pid]
+      finagle_procs.each { |finp|
+        threads_data = threads_data_hash[finp.pid]
+        metrics = metrics_hash[finp.pid]
 
         tx_bytes, rx_bytes = [0, 0]
         metrics.values.each { |scoped_metrics|
           scoped_metrics.each { |k, v|
             if not (k =~ /\/sent_bytes$/).nil?
-              tx_bytes = v
+              tx_bytes = v / 1024
             elsif not (k =~ /\/received_bytes$/).nil?
-              rx_bytes = v
+              rx_bytes = v / 1024
             end
           }
         }
 
         printf(
           @@row_format_str,
-          pid,
-          port,
-          metrics['jvm']['num_cpus'],
+          finp.pid,
+          finp.admin_port,
+          metrics['jvm']['num_cpus'].to_f,
           threads_data.num_threads,
           threads_data.num_non_daemon,
           threads_data.num_runnable,
@@ -65,6 +68,9 @@ module Fintop
     @@row_format_str = "%-7s %-6s %-5s %-5s %-6s %-6s %-7s %-8s %-10s %-10s\n"
 
     # Print a total process/thread synopsis and column headers.
+    #
+    # @param threads_data_hash [Hash<Fixnum, ThreadsData>] a hash of pids and
+    # their corresponding ThreadsData objects.
     def print_header(threads_data_hash)
       total_threads = threads_data_hash.values.map { |t|
         t.num_threads

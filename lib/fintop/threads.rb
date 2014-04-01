@@ -1,5 +1,5 @@
 require 'json'
-require "net/http"
+require 'net/http'
 
 module Fintop
   # Container class for data gathered from a Finagle server's
@@ -13,9 +13,11 @@ module Fintop
 
     # Initialize a ThreadsData object for a Finagle server's on a given
     # port's "/admin/threads" endpoint.
-    def initialize(port)
+    #
+    # @param admin_port [Fixnum]
+    def initialize(admin_port)
       json_str = Net::HTTP.get(
-        URI.parse("http://localhost:#{port}/admin/threads")
+        URI.parse("http://localhost:#{admin_port}/admin/threads")
       )
 
       @threads = JSON.parse(json_str)['threads'].to_a
