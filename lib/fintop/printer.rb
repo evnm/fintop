@@ -65,7 +65,7 @@ module Fintop
 
     private
 
-    @@row_format_str = '%-7s %-6s %-5s %-5s %-6s %-6s %-7s %-8s %-10s %-10s\n'
+    @@row_format_str = "%-7s %-6s %-5s %-5s %-6s %-6s %-7s %-8s %-10s %-10s\n"
 
     # Print a total process/thread synopsis and column headers.
     #
