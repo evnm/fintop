@@ -1,14 +1,17 @@
 #!/usr/bin/env ruby
 
 require 'fintop/printer'
-require 'fintop/probe'
-require 'fintop/version'
 
-if ARGV[0] == '-v' or ARGV[0] == '--version'
-  puts "fintop version #{Fintop::VERSION}"
+option = ARGV[0]
+if option == '-v' or option == '--version'
+  Fintop::Printer.print_version
   exit
+elsif option == '-h' or option == '--help'
+  Fintop::Printer.print_help
+  exit
+else
+  require 'fintop/probe'
+  finagle_procs = Fintop::Probe.apply
+  Fintop::Printer.apply(finagle_procs)
 end
-
-finagle_procs = Fintop::Probe.apply
-Fintop::Printer.apply(finagle_procs)
 

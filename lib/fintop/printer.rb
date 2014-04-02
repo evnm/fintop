@@ -1,5 +1,5 @@
 require 'fintop/metrics'
-require 'pp'
+require 'fintop/threads'
 
 module Fintop
   # Contains functions that gather and print operational data on local
@@ -63,9 +63,39 @@ module Fintop
       }
     end
 
+    # Print fintop version.
+    def print_version
+      require 'fintop/version'
+      puts "fintop version #{Fintop::VERSION}"
+    end
+
+    # Print help output.
+    def print_help
+      puts 'usage: fintop [-v|--version] [-h|--help]'
+      puts
+      puts 'Column Labels:'
+
+      @@columns.each { |label, description|
+        printf(@@help_format_str, label, description)
+      }
+    end
+
     private
 
     @@row_format_str = "%-7s %-6s %-5s %-5s %-6s %-6s %-7s %-8s %-10s %-10s\n"
+    @@help_format_str = "    %-8s %s\n"
+    @@columns = [
+      ['PID',   'The process identifier of the Finagle process'],
+      ['PORT',  'The admin port opened by the process'],
+      ['CPU',   'The number of CPUs allocated to the process'],
+      ['#TH',   'The total number of threads within the process'],
+      ['#NOND', 'The number of non-daemon threads within the process'],
+      ['#RUN',  'The number of runnable threads within the process'],
+      ['#WAIT', 'The number of waiting threads within the process'],
+      ['#TWAIT','The number of threads within the process that are waiting on a timer'],
+      ['TXKB',  'The sum of data (in KB) transmitted by the Finagle process'],
+      ['RXKB',  'The sum of data (in KB) received by the Finagle process']
+    ]
 
     # Print a total process/thread synopsis and column headers.
     #
@@ -89,19 +119,7 @@ module Fintop
            "#{runnable_threads} runnable, "\
            "#{waiting_threads} waiting"
       puts
-      printf(
-        @@row_format_str,
-        'PID',
-        'PORT',
-        'CPU',
-        '#TH',
-        '#NOND',
-        '#RUN',
-        '#WAIT',
-        '#TWAIT',
-        'TXKB',
-        'RXKB'
-      )
+      printf(@@row_format_str, *(@@columns.map { |label, desc| label }))
     end
   end
 end

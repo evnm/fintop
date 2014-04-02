@@ -1,6 +1,7 @@
 # 0.0.2 (unreleased)
 
-- Add -v and --version command-line options
+- Add -v/--version command-line options
+- Add -h/--help command-line options
 
 # 0.0.1 (4/1/2014)
 
