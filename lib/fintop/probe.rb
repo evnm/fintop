@@ -25,9 +25,9 @@ module Fintop
     # the path "/admin". Function returns an array of FinagleProcess objects
     def apply
       # Invoke jps and filter out nailgun servers and the jps process itself.
-      jps_cmd_str = "$JAVA_HOME/bin/jps | "\
-                    "grep -v NGServer | "\
-                    "grep -v Jps | "\
+      jps_cmd_str = '$JAVA_HOME/bin/jps | '\
+                    'grep -v NGServer | '\
+                    'grep -v Jps | '\
                     "awk '{print $1}'"
 
       finagle_pids = `#{jps_cmd_str}`.split.map { |pid|

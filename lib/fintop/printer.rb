@@ -13,7 +13,7 @@ module Fintop
     # @param finagle_procs [Array<FinagleProcess>]
     def apply(finagle_procs)
       if finagle_procs.empty?
-        puts "Finagle processes: 0"
+        puts 'Finagle processes: 0'
         exit
       end
 
@@ -65,7 +65,7 @@ module Fintop
 
     private
 
-    @@row_format_str = "%-7s %-6s %-5s %-5s %-6s %-6s %-7s %-8s %-10s %-10s\n"
+    @@row_format_str = '%-7s %-6s %-5s %-5s %-6s %-6s %-7s %-8s %-10s %-10s\n'
 
     # Print a total process/thread synopsis and column headers.
     #
@@ -91,16 +91,16 @@ module Fintop
       puts
       printf(
         @@row_format_str,
-        "PID",
-        "PORT",
-        "CPU",
-        "#TH",
-        "#NOND",
-        "#RUN",
-        "#WAIT",
-        "#TWAIT",
-        "TXKB",
-        "RXKB"
+        'PID',
+        'PORT',
+        'CPU',
+        '#TH',
+        '#NOND',
+        '#RUN',
+        '#WAIT',
+        '#TWAIT',
+        'TXKB',
+        'RXKB'
       )
     end
   end
