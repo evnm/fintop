@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.authors       = ['Evan Meagher']
   s.email         = ['evan.meagher@gmail.com']
   s.summary       = %q{A top-like utility for monitoring Finagle servers}
+  s.description   = %q{Fintop is a top-like monitoring tool Finagle servers}
   s.license       = 'MIT'
 
   s.files         = `git ls-files -z`.split("\x0")
