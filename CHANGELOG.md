@@ -1,3 +1,6 @@
+# 0.0.2 (unreleased)
+
+
 # 0.0.1 (4/1/2014)
 
 - Initial version of Fintop. Probes stats and threads endpoints of Finagle
