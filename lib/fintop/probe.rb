@@ -40,7 +40,7 @@ module Fintop
         # library is in use.
         begin
           # Manual timeout to bail out of hung requests to un-listened-on ports.
-          Timeout::timeout(0.2) do
+          Timeout::timeout(0.3) do
             if is_resolvable(admin_port, '/admin/metrics.json')
               FinagleProcess.new(pid, admin_port, :metrics_tm)
             elsif is_resolvable(admin_port, '/stats.json')
