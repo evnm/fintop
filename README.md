@@ -4,8 +4,14 @@ A top-like utility for monitoring [Finagle](http://github.com/twitter/finagle) s
 
 ## Installation
 
-The `fintop` gem hasn't been published yet, so is currently only usable from
-source. To install `fintop` locally, clone this repository and run
+### From RubyGems.org
+
+`fintop` is distributed as [an executable Ruby gem](https://rubygems.org/gems/fintop).
+To install it from the RubyGems.org, simply run `gem install fintop`.
+
+### From source
+
+To install `fintop` locally from source, clone this repository and run
 `rake install` from within the repository's root directory.
 
 ## Usage
