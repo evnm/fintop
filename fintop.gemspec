@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'test-unit', '~> 2.5'
 
   s.add_dependency 'json'
+  s.add_dependency 'sys-proctable', '~> 0.9.4'
 end

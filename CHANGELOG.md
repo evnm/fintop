@@ -1,5 +1,6 @@
 # 0.0.2 (unreleased)
 
+- Fetch Java processes in Ruby rather than shelling out to `jps`
 - Add -v/--version command-line options
 - Add -h/--help command-line options
 

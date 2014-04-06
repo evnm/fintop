@@ -14,4 +14,3 @@ else
   finagle_procs = Fintop::Probe.apply
   Fintop::Printer.apply(finagle_procs)
 end
-

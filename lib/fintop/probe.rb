@@ -1,4 +1,5 @@
 require 'net/http'
+require 'sys/proctable'
 require 'timeout'
 
 module Fintop
@@ -24,18 +25,18 @@ module Fintop
     # Probing targets are Java processes listening on a TCP socket serving
     # the path "/admin". Function returns an array of FinagleProcess objects
     def apply
-      # Invoke jps and filter out nailgun servers and the jps process itself.
-      jps_cmd_str = '$JAVA_HOME/bin/jps | '\
-                    'grep -v NGServer | '\
-                    'grep -v Jps | '\
-                    "awk '{print $1}'"
+      java_ps = Sys::ProcTable.ps.select { |s| s.comm == 'java' }
 
-      finagle_pids = `#{jps_cmd_str}`.split.map { |pid|
-        # Filter for the processes that are listening on a TCP port.
-        lsof_cmd_str = "lsof -P -i tcp -a -p #{pid} | grep LISTEN | awk '{print $9}'"
+      listening_java_ps = java_ps.map { |s|
+        # Filter by user, pid, and existence of a listened-on TCP port.
+        lsof_cmd_str = "lsof -P -i tcp -a -p #{s.pid} " \
+                       "| grep LISTEN " \
+                       "| awk '{print $9}'"
         port_match = /\d+/.match(`#{lsof_cmd_str}`)
-        port_match && [pid, port_match[0]]
-      }.compact.map { |pid, admin_port|
+        port_match && [s.pid, port_match[0]]
+      }.compact
+
+      listening_java_ps.map { |pid, admin_port|
         # Probe the possible ping endpoints to determine which (if any) stats
         # library is in use.
         begin
