@@ -71,19 +71,28 @@ module Fintop
 
     # Print help output.
     def print_help
-      puts 'usage: fintop [-v|--version] [-h|--help]'
+      puts 'usage: fintop [-v|--version] [-h|--help] [-a]'
+      puts
+      puts 'Options:'
+      printf(@@option_format_str, '-a', 'Display info about other users\' ' \
+                                        'Finagle processes as well as your own')
+      printf(@@option_format_str, '-v, --version',
+        'Print the version number of Fintop being run')
+      printf(@@option_format_str, '-h, --help', 'Print help output')
       puts
       puts 'Column Labels:'
-
       @@columns.each { |label, description|
-        printf(@@help_format_str, label, description)
+        printf(@@column_label_format_str, label, description)
       }
     end
 
     private
 
     @@row_format_str = "%-7s %-6s %-5s %-5s %-6s %-6s %-7s %-8s %-10s %-10s\n"
-    @@help_format_str = "    %-8s %s\n"
+
+    # Help output format strings.
+    @@option_format_str =       "   %s\n      %s\n"
+    @@column_label_format_str = "   %-8s %s\n"
     @@columns = [
       ['PID',   'The process identifier of the Finagle process'],
       ['PORT',  'The admin port opened by the process'],
