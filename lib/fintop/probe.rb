@@ -24,12 +24,16 @@ module Fintop
     #
     # Probing targets are Java processes listening on a TCP socket serving
     # the path "/admin". Function returns an array of FinagleProcess objects
-    def apply
+    #
+    # @param include_other_users [Boolean] if true, other users' Java
+    # processes will be probed in addition to the current user's
+    def apply(include_other_users = false)
       java_ps = Sys::ProcTable.ps.select { |s| s.comm == 'java' }
 
       listening_java_ps = java_ps.map { |s|
         # Filter by user, pid, and existence of a listened-on TCP port.
-        lsof_cmd_str = "lsof -P -i tcp -a -p #{s.pid} " \
+        user_filter_str = include_other_users ? "-u #{s.ruid}" : ''
+        lsof_cmd_str = "lsof -P #{user_filter_str} -i tcp -a -p #{s.pid} " \
                        "| grep LISTEN " \
                        "| awk '{print $9}'"
         port_match = /\d+/.match(`#{lsof_cmd_str}`)

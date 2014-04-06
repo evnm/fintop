@@ -11,6 +11,6 @@ elsif option == '-h' or option == '--help'
   exit
 else
   require 'fintop/probe'
-  finagle_procs = Fintop::Probe.apply
+  finagle_procs = Fintop::Probe.apply(option == '-a')
   Fintop::Printer.apply(finagle_procs)
 end
