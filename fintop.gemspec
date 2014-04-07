@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.version       = Fintop::VERSION
   s.authors       = ['Evan Meagher']
   s.email         = ['evan.meagher@gmail.com']
-  s.summary       = %q{A top-like utility for monitoring Finagle servers}
-  s.description   = %q{Fintop is a top-like monitoring tool Finagle servers}
+  s.summary       = %q{A top-like utility for monitoring Finagle services}
+  s.description   = %q{Fintop is a top-like tool for monitoring Finagle services}
   s.license       = 'MIT'
 
   s.files         = `git ls-files -z`.split("\x0")
