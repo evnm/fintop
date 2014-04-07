@@ -1,4 +1,4 @@
-# 0.0.2 (unreleased)
+# 0.0.2 (4/6/2014)
 
 - Add -a option for displaying info on other users' Finagle processes
 - Fetch Java processes in Ruby rather than shelling out to `jps`

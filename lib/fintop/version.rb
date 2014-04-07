@@ -1,3 +1,3 @@
 module Fintop
-  VERSION = '0.0.2.dev'
+  VERSION = '0.0.2'
 end
