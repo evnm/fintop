@@ -1,5 +1,8 @@
 require 'bundler/gem_tasks'
+require 'rake/clean'
 require 'rake/testtask'
+
+CLEAN.include('pkg')
 
 Rake::TestTask.new do |t|
   t.libs << 'test'
