@@ -1,3 +1,6 @@
+# 0.0.3 (unreleased)
+
+
 # 0.0.2 (4/6/2014)
 
 - Add -a option for displaying info on other users' Finagle processes
